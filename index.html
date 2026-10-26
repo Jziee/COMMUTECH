@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>COMMUTECH | Live Transit Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="dashboard">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="COMMUTECH home">
+      <span class="brand-mark">C</span>
+      <span>COMMUTECH<small>SMART TRANSIT • LIMAY, BATAAN</small></span>
+    </a>
+    <div class="topbar-right">
+      <span class="live-pill"><span class="pulse"></span><span id="connection-label">CONNECTING</span></span>
+      <a class="button button-quiet button-small" href="driver.html">Driver portal <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="welcome-row">
+      <div>
+        <p class="eyebrow">PUBLIC TRANSIT MONITOR</p>
+        <h1>Know your ride.<br><span class="gradient-text">Plan your trip.</span></h1>
+        <p class="subheading">A live prototype for monitoring vehicle location and passenger occupancy in Limay.</p>
+      </div>
+      <div class="vehicle-chip">
+        <span class="vehicle-icon">▰</span>
+        <span><strong>Vehicle LIMAY-001</strong><small id="last-updated">Waiting for first update</small></span>
+      </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Vehicle status">
+      <article class="stat-card">
+        <div class="stat-top"><span>Passenger occupancy</span><span class="stat-icon">♙</span></div>
+        <div class="stat-value"><span id="passenger-count">—</span><span class="stat-unit">passengers</span></div>
+        <div class="progress-track"><div id="occupancy-bar" class="progress-fill" style="width:0%"></div></div>
+        <div class="stat-foot"><span id="occupancy-caption">Waiting for data</span><span id="occupancy-percent">—</span></div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span>Available seats</span><span class="stat-icon">⌑</span></div>
+        <div class="stat-value"><span id="available-seats">—</span><span class="stat-unit">seats</span></div>
+        <div class="stat-foot"><span>Vehicle capacity</span><strong id="capacity-label">20 seats</strong></div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span>Tracking status</span><span class="stat-icon">⌖</span></div>
+        <div class="status-value"><span id="tracking-dot" class="status-dot"></span><span id="tracking-status">Waiting</span></div>
+        <p id="tracking-detail" class="stat-description">The driver has not started GPS sharing.</p>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel map-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">LIVE LOCATION</p><h2>Vehicle map</h2></div>
+          <span class="map-tag"><span class="mini-dot"></span> GPS feed</span>
+        </div>
+        <div id="map" class="map" role="application" aria-label="Map showing the vehicle location"></div>
+        <div class="map-footer">
+          <span class="coordinate-icon">⌖</span>
+          <div><strong id="location-text">Location unavailable</strong><small id="coordinate-text">Waiting for GPS coordinates</small></div>
+          <button id="center-map" class="icon-button" type="button" title="Center map on vehicle" aria-label="Center map on vehicle">◎</button>
+        </div>
+        <div class="commuter-location-row">
+          <div class="commuter-location-copy">
+            <strong>Find your location</strong>
+            <small id="commuter-location-status">Your location is not being accessed.</small>
+          </div>
+          <button id="locate-me" class="button button-primary button-small" type="button">Locate Me</button>
+        </div>
+      </article>
+
+      <aside class="panel side-panel">
+        <div class="panel-heading"><div><p class="eyebrow">SYSTEM OVERVIEW</p><h2>Trip status</h2></div><span class="overview-symbol">↗</span></div>
+        <div class="route-card">
+          <div class="route-line"><span class="route-point route-point-start"></span><span class="route-stem"></span><span class="route-point route-point-end"></span></div>
+          <div class="route-copy">
+            <div><small>Service area</small><strong>Limay</strong></div>
+            <div><small>Vehicle arrival near you</small><strong id="eta-value">Locate yourself first</strong></div>
+          </div>
+          <div class="eta-distance" id="eta-distance">Your location stays on this device.</div>
+        </div>
+        <p class="notice"><span>i</span><span id="eta-notice">Tap Locate Me and allow location access. ETA is an approximate estimate, not a guaranteed arrival time.</span></p>
+        <div class="side-divider"></div>
+        <div class="data-row"><span>Database connection</span><strong id="db-status" class="neutral-text">Connecting…</strong></div>
+        <div class="data-row"><span>Last data update</span><strong id="update-age">—</strong></div>
+        <div class="data-row"><span>GPS coordinates</span><strong id="gps-status">Not received</strong></div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>COMMUTECH <span class="footer-dot">•</span> Prototype demonstration</span>
+      <span>Data updates when the driver panel publishes new information.</span>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>

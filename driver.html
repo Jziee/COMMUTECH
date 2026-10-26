@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>COMMUTECH | Driver Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="driver">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="COMMUTECH home">
+      <span class="brand-mark">C</span>
+      <span>COMMUTECH<small>DRIVER CONTROL PANEL</small></span>
+    </a>
+    <div class="topbar-right"><a class="button button-quiet button-small" href="index.html">← Public dashboard</a></div>
+  </header>
+
+  <main class="page-shell driver-shell">
+    <section class="driver-heading">
+      <p class="eyebrow">AUTHORIZED ACCESS</p>
+      <h1>Driver <span class="gradient-text">control center.</span></h1>
+      <p class="subheading">Manage the prototype passenger count and share this phone's GPS location.</p>
+    </section>
+
+    <section id="login-panel" class="panel auth-panel">
+      <div class="auth-icon">⌑</div>
+      <p class="eyebrow">DRIVER SIGN IN</p>
+      <h2>Welcome back</h2>
+      <p class="muted">Sign in with the driver account created in Supabase Authentication.</p>
+      <form id="login-form" class="form-stack">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="username" placeholder="driver@example.com" required>
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+        <button id="login-button" class="button button-primary full-button" type="submit">Sign in securely <span>→</span></button>
+        <p id="login-message" class="form-message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="driver-panel" class="driver-layout hidden">
+      <article class="panel occupancy-control">
+        <div class="panel-heading">
+          <div><p class="eyebrow">MANUAL PROTOTYPE INPUT</p><h2>Passenger count</h2></div>
+          <span class="manual-badge">MANUAL</span>
+        </div>
+        <p class="muted">Use these controls during your demonstration. They will update the public dashboard in real time.</p>
+        <div class="count-control">
+          <button id="minus-passenger" class="count-button" type="button" aria-label="Remove one passenger">−</button>
+          <div class="count-display"><strong id="driver-count">0</strong><span>passengers onboard</span></div>
+          <button id="plus-passenger" class="count-button count-plus" type="button" aria-label="Add one passenger">+</button>
+        </div>
+        <div class="progress-track progress-large"><div id="driver-occupancy-bar" class="progress-fill" style="width:0%"></div></div>
+        <div class="stat-foot"><span id="driver-capacity-copy">Capacity: 20</span><span id="driver-remaining">20 seats available</span></div>
+        <p id="occupancy-message" class="form-message" aria-live="polite"></p>
+        <div class="button-row">
+          <button id="reset-count" class="button button-secondary" type="button">Reset count</button>
+          <button id="refresh-count" class="button button-quiet" type="button">Refresh data</button>
+        </div>
+      </article>
+
+      <article class="panel gps-control">
+        <div class="panel-heading"><div><p class="eyebrow">PHONE LOCATION</p><h2>GPS tracking</h2></div><span class="gps-icon">⌖</span></div>
+        <div class="gps-status-card"><span id="driver-gps-dot" class="status-dot"></span><div><strong id="driver-gps-status">Not sharing location</strong><small id="driver-gps-detail">Allow location access when prompted.</small></div></div>
+        <div class="coordinate-box"><small>Latest coordinates</small><strong id="driver-coordinates">No GPS fix yet</strong></div>
+        <div class="button-row">
+          <button id="start-gps" class="button button-primary" type="button">Start GPS</button>
+          <button id="stop-gps" class="button button-secondary" type="button" disabled>Stop GPS</button>
+        </div>
+        <p class="notice"><span>i</span><span>GPS requires HTTPS (or localhost) and permission from the phone's browser. Keep this page open while tracking.</span></p>
+      </article>
+
+      <article class="panel driver-session">
+        <div><p class="eyebrow">ACTIVE SESSION</p><h2 id="driver-email">Driver account</h2><p class="muted">Only the designated account should be allowed to update the vehicle row.</p></div>
+        <button id="logout-button" class="button button-secondary" type="button">Sign out</button>
+      </article>
+    </section>
+
+    <footer class="footer"><span>COMMUTECH <span class="footer-dot">•</span> Driver controls</span><span>Passenger count is manually entered in this version.</span></footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
